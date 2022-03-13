@@ -1,6 +1,6 @@
 import PlayerDetail from "./PlayerDetail";
 
-const Player = ({ onEdit, players }) => {
+const Player = ({ players, onEdit, onStart }) => {
  
 
   return (
@@ -10,7 +10,7 @@ const Player = ({ onEdit, players }) => {
           <PlayerDetail key={index} player={player} onEdit={onEdit} numberPlayer={index + 1} />
         ))}
       </ol>
-      <button class="btn">
+      <button class="btn" onClick={()=>onStart()}>
         Start New Game
       </button>
     </section>

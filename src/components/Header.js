@@ -2,7 +2,7 @@ const Header = ({ onCancel, toggleForm }) => {
   return (
     <>
       <div
-        id="backdrop"
+        className="backdrop"
         style={{ display: toggleForm ? "block" : "none" }}
         onClick={() => onCancel()}
       ></div>

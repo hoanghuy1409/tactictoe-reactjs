@@ -5,11 +5,15 @@ import Header from "./components/Header";
 import Form from "./components/Form";
 import Player from "./components/Player";
 import Board from "./components/Board";
+import Alert from "./components/Alert";
 
 const App = () => {
   const [toggleForm, setToggleForm] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(0);
+  const [activatedPlayers, setActivatedPlayer] = useState(0);
   const [validationName, setValidationName] = useState(false);
+  const [startGame, setStartGame] = useState(false);
+  const [alert, setAlert] = useState(false);
   const [players, setPlayers] = useState([
     {
       name: "",
@@ -52,6 +56,19 @@ const App = () => {
     setValidationName(false);
   };
 
+  const onStart = () =>{
+    if ((players[0].name || players[1].name) === "") {
+      setAlert(true);
+      return;
+    }
+
+    setStartGame(true);
+  }
+
+  const onClose = () => {
+    setAlert(false);
+  }
+
   return (
     <>
       <Header onCancel={onCancel} toggleForm={toggleForm} />
@@ -62,8 +79,9 @@ const App = () => {
           onCancel={onCancel}
           validationName={validationName}
         />
-        <Player players={players} onEdit={onEdit} />
-        <Board />
+        <Player players={players} onEdit={onEdit} onStart={onStart} />
+        <Board startGame={startGame} activatedPlayers={activatedPlayers} players={players} />
+        { alert && <Alert onClose={onClose} /> }
       </main>
     </>
   );
