@@ -10,10 +10,16 @@ import Alert from "./components/Alert";
 const App = () => {
   const [toggleForm, setToggleForm] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(0);
-  const [activatedPlayers, setActivatedPlayer] = useState(0);
+  const [activatedPlayers, setActivatedPlayer] = useState(1);
   const [validationName, setValidationName] = useState(false);
   const [startGame, setStartGame] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [matrix, setMatrix] = useState([
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ]);
+ 
   const [players, setPlayers] = useState([
     {
       name: "",
@@ -69,6 +75,29 @@ const App = () => {
     setAlert(false);
   }
 
+  const onTick = (r, c, e) => {
+    const col = +c;
+    const row = +r;
+    if (matrix[row][col] !== 0 || e.target.innerText !== "") {
+      return;
+    }
+    const mainMatrix = [...matrix];
+    const updatingRow = [...mainMatrix[row]];
+
+    updatingRow[col] = activatedPlayers;
+    mainMatrix[row] = updatingRow;
+
+    setMatrix([...mainMatrix]);
+
+    if (activatedPlayers === 1) {
+      setActivatedPlayer(2);
+    } else {
+      setActivatedPlayer(1);
+    }
+
+    console.log(row, col)
+  };
+
   return (
     <>
       <Header onCancel={onCancel} toggleForm={toggleForm} />
@@ -80,7 +109,7 @@ const App = () => {
           validationName={validationName}
         />
         <Player players={players} onEdit={onEdit} onStart={onStart} />
-        <Board startGame={startGame} activatedPlayers={activatedPlayers} players={players} />
+        <Board startGame={startGame} activatedPlayers={activatedPlayers} players={players} onTick={onTick} matrix={matrix} />
         { alert && <Alert onClose={onClose} /> }
       </main>
     </>

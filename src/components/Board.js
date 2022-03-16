@@ -1,28 +1,45 @@
-const Board = ({ startGame, activatedPlayers, players }) => {
+import { Fragment } from "react";
+import Square from "./Square";
+
+const Board = ({ startGame, activatedPlayers, players, onTick, matrix }) => {
+  const ilElements = [];
+  let k = 0;
+  
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      k += 1;
+      ilElements.push(
+        <Square
+          key={k}
+          row={i}
+          col={j}
+          players={players}
+          matrix={matrix}
+          onTick={onTick}
+        />
+      );
+    }
+  }
+
   return (
     <section id="active-game">
-      <article class="game-over" style={{display: "none"}}>
+      <article className="game-over" style={{ display: "none" }}>
         <h2>
           You won, <span id="winner-name">PLAYER NAME</span>!
         </h2>
         <p>Press "Start New Game" above to create a new game.</p>
       </article>
-      <div style={{display: true ? "block" : "none" }}> {/*startGame*/}
+      <div style={{ display: true ? "block" : "none" }}>{/*startGame*/}
         <p>
-          It's your turn <span id="active-player-name">{players[activatedPlayers].name}</span>!
+          It's your turn
+          <span id="active-player-name">{players[activatedPlayers - 1].name}</span>!
         </p>
         <ol id="game-board">
-          <li data-col="1" data-row="1"></li>
-          <li data-col="2" data-row="1"></li>
-          <li data-col="3" data-row="1"></li>
-
-          <li data-col="1" data-row="2"></li>
-          <li data-col="2" data-row="2"></li>
-          <li data-col="3" data-row="2"></li>
-
-          <li data-col="1" data-row="3"></li>
-          <li data-col="2" data-row="3"></li>
-          <li data-col="3" data-row="3"></li>
+          {ilElements.map((value, index) => (
+            <Fragment key={index}>
+              {value}
+            </Fragment>
+          ))}
         </ol>
       </div>
     </section>
