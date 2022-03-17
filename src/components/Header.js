@@ -8,7 +8,7 @@ const Header = ({ onCancel, toggleForm }) => {
       ></div>
       <header id="main-header">
         <h1>Play Tac, Tic, Toe</h1>
-        <p>Built with HTML, CSS, JavaScript</p>
+        <p>Built with ReactJS, using useState & useEffect</p>
       </header>
     </>
   );
