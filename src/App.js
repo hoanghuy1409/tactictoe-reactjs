@@ -35,8 +35,8 @@ const App = () => {
 
   useEffect(() => {
     if(matrix){
-        checkGame()
-      }
+      checkGame();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matrix]);
 
@@ -142,6 +142,10 @@ const App = () => {
       ) {
         setEndGame(true);
         setPlayerWin(matrix[1][1]);
+      }
+
+      if (countTick === 9) {
+        setPlayerWin(-1)
       }
     }
   }
