@@ -1,11 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Form from "./components/Form";
 import Player from "./components/Player";
 import Board from "./components/Board";
 import Alert from "./components/Alert";
+import History from "./components/History";
+import { database } from "./firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 const App = () => {
   const [toggleForm, setToggleForm] = useState(false);
@@ -32,12 +37,23 @@ const App = () => {
       symbol: "O",
     },
   ]);
+  const collectionRef = collection(database, "historyGame");
 
   useEffect(() => {
-    if(matrix){
+    if (endGame) {
+      addDoc(collectionRef, {
+        playerWin: players[playerWin - 1].name,
+        playerLose: players[(playerWin === 1 ? 2 : 1) - 1].name,
+      })
+        .then(() => console.log("Success"))
+        .catch(() => console.log("Fail"));
+    }
+  }, [endGame]);
+
+  useEffect(() => {
+    if (matrix) {
       checkGame();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matrix]);
 
   const onConfirm = (name, e) => {
@@ -87,13 +103,13 @@ const App = () => {
       [0, 0, 0],
       [0, 0, 0],
     ]);
-  }
+  };
 
   const onClose = () => {
     setAlert(false);
-  }
+  };
 
-  const onTick =  (r, c, e) => {
+  const onTick = (r, c, e) => {
     const col = +c;
     const row = +r;
     if (matrix[row][col] !== 0 || e.target.innerText !== "" || endGame) {
@@ -108,11 +124,10 @@ const App = () => {
     setMatrix([...mainMatrix]);
     setCountTick(countTick + 1);
     if (activatedPlayers === 1) {
-       setActivatedPlayer(2);
+      setActivatedPlayer(2);
     } else {
-       setActivatedPlayer(1);
+      setActivatedPlayer(1);
     }
-    
   };
 
   const checkGame = () => {
@@ -145,34 +160,50 @@ const App = () => {
       }
 
       if (countTick === 9) {
-        setPlayerWin(-1)
+        setPlayerWin(-1);
       }
     }
-  }
+  };
 
   return (
-    <>
+    <Router>
       <Header onCancel={onCancel} toggleForm={toggleForm} />
-      <main>
-        <Form
-          toggleForm={toggleForm}
-          onConfirm={onConfirm}
-          onCancel={onCancel}
-          validationName={validationName}
+      <nav>
+        <ul>
+          <Link to="/">Game</Link>
+          <Link to="/history">History</Link>
+        </ul>
+      </nav>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <main>
+                <Form
+                  toggleForm={toggleForm}
+                  onConfirm={onConfirm}
+                  onCancel={onCancel}
+                  validationName={validationName}
+                />
+                <Player players={players} onEdit={onEdit} onStart={onStart} />
+                <Board
+                  startGame={startGame}
+                  activatedPlayers={activatedPlayers}
+                  players={players}
+                  matrix={matrix}
+                  playerWin={playerWin}
+                  countTick={countTick}
+                  onTick={onTick}
+                />
+                {alert && <Alert onClose={onClose} />}
+              </main>
+            </>
+          }
         />
-        <Player players={players} onEdit={onEdit} onStart={onStart} />
-        <Board
-          startGame={startGame}
-          activatedPlayers={activatedPlayers}
-          players={players}
-          matrix={matrix}
-          playerWin={playerWin}
-          countTick={countTick}
-          onTick={onTick}
-        />
-        {alert && <Alert onClose={onClose} />}
-      </main>
-    </>
+        <Route path="history" element={<History collectionRef={collectionRef}/>} />
+      </Routes>
+    </Router>
   );
 };
 

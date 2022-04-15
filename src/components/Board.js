@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Square from "./Square";
 
-const Board = ({ startGame, activatedPlayers, players, onTick, matrix, playerWin, countTick }) => {
+const Board = ({ startGame, activatedPlayers, players, onTick, matrix, playerWin }) => {
   const ilElements = [];
   let k = 0;
   

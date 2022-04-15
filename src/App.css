@@ -183,3 +183,66 @@
   }
 }
 
+nav {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul a {
+  width: 50%;
+  list-style: none;
+  text-align: center;
+  font-size: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgb(157 253 196);
+  color: rgb(9, 196, 87);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#history {
+  width: 100%;
+}
+
+table {
+  margin: 0 auto;
+  padding-top: 2rem;
+  border-collapse: separate;
+  border-spacing: 0.75rem;
+}
+
+table th,
+table td {
+  padding: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+table th:nth-child(1) {
+  background-color: cornflowerblue;
+  border-radius: 0.5rem;
+}
+
+table th:nth-child(2) {
+  border-radius: 0.5rem;
+  background-color: lightcoral;
+}
+
+table .td-left {
+  border-bottom: 1pt solid cornflowerblue;
+}
+
+table .td-right {
+  border-bottom: 1pt solid lightcoral;
+}
