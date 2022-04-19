@@ -6,25 +6,31 @@ const History = ({collectionRef}) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
+    let mounted = true;
     getDocs(collectionRef)
       .then(res => {
-        setList(
-          res.docs.map(item => {
-            return item.data()
-          })
-        )
+        if (mounted) {
+          setList(
+            res.docs.map(item => {
+              return item.data()
+            })
+          )
+        }
       })
       .catch(() => console.log('Fail'))
+    return () => mounted = false;
   }, []);
 
   return (
     <div id="history">
       <table>
-        <tbody>
+        <thead>
           <tr>
             <th>Win</th>
             <th>Lose</th>
           </tr>
+        </thead>
+        <tbody>
           {list.map((item, index) => {
             return (
               <Fragment key={index}>

@@ -187,6 +187,7 @@ nav {
   margin: 0;
   padding: 0;
   width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 nav ul {
@@ -207,6 +208,10 @@ nav ul a {
   color: rgb(9, 196, 87);
   cursor: pointer;
   text-decoration: none;
+}
+
+.active {
+  background-color: #24402f;
 }
 
 #history {

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Form from "./components/Form";
@@ -170,8 +170,8 @@ const App = () => {
       <Header onCancel={onCancel} toggleForm={toggleForm} />
       <nav>
         <ul>
-          <Link to="/">Game</Link>
-          <Link to="/history">History</Link>
+          <NavLink to="/" className={(navData) => navData.isActive ? "active" : "" }>Game</NavLink>
+          <NavLink to="/history" className={(navData) => navData.isActive ? "active" : "" }>History</NavLink>
         </ul>
       </nav>
       <Routes>
